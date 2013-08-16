@@ -64,14 +64,15 @@ class ZfcUserZendDb implements ProviderInterface
         $where  = new Where();
 
         $where->equalTo('user_id', $authService->getIdentity()->getId());
-
+		$select->join('user_role','user_role_linker.role_id = user_role.id');
         $results = $sql->prepareStatementForSqlObject($select->where($where))->execute();
         $roles     = array();
-
+       
         foreach ($results as $i) {
+        	
             $roles[] = $i['role_id'];
         }
-
+		
         return $roles;
     }
 
